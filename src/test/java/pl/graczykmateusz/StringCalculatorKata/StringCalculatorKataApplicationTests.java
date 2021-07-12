@@ -96,9 +96,9 @@ class StringCalculatorKataApplicationTests {
 		return Stream.of(
 				Arguments.of("//;\n0,0;0", 0),
 				Arguments.of("//a\n1a1a5", 7),
-				Arguments.of("//$\n2$4,4$5", 15),
-				Arguments.of("//zz\n10,10zz10zz10", 40),
-				Arguments.of("//!@\n10!@20,30!@40,50", 150),
+				Arguments.of("//z\n10,10z10z10", 40),
+				Arguments.of("//!\n10!20,30!40,50", 150),
+				Arguments.of("//]\n1,1]1,1,1]1]1]1]1,1", 10),
 				Arguments.of("//]\n1,1]1,1,1]1]1]1]1,1", 10));
 	}
 }
