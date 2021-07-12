@@ -2,6 +2,7 @@ package pl.graczykmateusz.StringCalculatorKata;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class StringCalculatorKataApplicationTests {
@@ -13,11 +14,10 @@ class StringCalculatorKataApplicationTests {
 	}
 
 	@Test
-	void addEmptyStringShouldReturnZero() {
+	void shouldReturnZeroWhenAddEmptyString() {
 		var excepted = 0;
 		var actual = stringCalculator.add("");
 
 		Assertions.assertEquals(excepted, actual);
 	}
-
 }
