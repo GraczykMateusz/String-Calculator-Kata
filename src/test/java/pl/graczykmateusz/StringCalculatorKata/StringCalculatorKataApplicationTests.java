@@ -60,11 +60,11 @@ class StringCalculatorKataApplicationTests {
 
 	private static Stream<Arguments> addUnknownAmountOfNumbersArguments() {
 		return Stream.of(
-				Arguments.of("0,0,0", 1),
-				Arguments.of("1,1,5", 6),
-				Arguments.of("2,4,4,5", 14),
-				Arguments.of("10,10,10,10", 39),
-				Arguments.of("10,20,30,40,50", 149),
-				Arguments.of("1,1,1,1,1,1,1,1,1,1", 9));
+				Arguments.of("0,0,0", 0),
+				Arguments.of("1,1,5", 7),
+				Arguments.of("2,4,4,5", 15),
+				Arguments.of("10,10,10,10", 40),
+				Arguments.of("10,20,30,40,50", 150),
+				Arguments.of("1,1,1,1,1,1,1,1,1,1", 10));
 	}
 }
