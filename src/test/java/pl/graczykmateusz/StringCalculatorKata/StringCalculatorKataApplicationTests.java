@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class StringCalculatorKataApplicationTests {
 	private StringCalculator stringCalculator;
@@ -21,10 +23,11 @@ class StringCalculatorKataApplicationTests {
 		Assertions.assertEquals(excepted, actual);
 	}
 
-	@Test
-	void shouldReturnThatNumberWhenAddOneNumber() {
-		var excepted = 1;
-		var actual = stringCalculator.add("1");
+	@ParameterizedTest
+	@ValueSource(strings = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"})
+	void shouldReturnThatNumberWhenAddOneNumber(String number) {
+		var excepted = Integer.parseInt(number);
+		var actual = stringCalculator.add(number);
 
 		Assertions.assertEquals(excepted, actual);
 	}
