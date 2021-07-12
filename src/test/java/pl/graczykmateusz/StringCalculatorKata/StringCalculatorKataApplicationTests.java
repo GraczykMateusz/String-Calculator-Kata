@@ -31,4 +31,13 @@ class StringCalculatorKataApplicationTests {
 
 		Assertions.assertEquals(excepted, actual);
 	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"0,0", "1,2", "2,3", "3,3", "4,5", "6,3", "11,23"})
+	void shouldReturnSumWhenAddTwoNumbers(String numbers) {
+		var excepted = Integer.parseInt(numbers);
+		var actual = stringCalculator.add(numbers);
+
+		Assertions.assertEquals(excepted, actual);
+	}
 }
