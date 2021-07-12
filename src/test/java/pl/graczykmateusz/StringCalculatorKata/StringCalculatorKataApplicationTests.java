@@ -20,4 +20,12 @@ class StringCalculatorKataApplicationTests {
 
 		Assertions.assertEquals(excepted, actual);
 	}
+
+	@Test
+	void shouldReturnThatNumberWhenAddOneNumber() {
+		var excepted = 1;
+		var actual = stringCalculator.add("1");
+
+		Assertions.assertEquals(excepted, actual);
+	}
 }
