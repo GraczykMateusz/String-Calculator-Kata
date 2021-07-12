@@ -1,13 +1,23 @@
 package pl.graczykmateusz.StringCalculatorKata;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class StringCalculatorKataApplicationTests {
+	private StringCalculator stringCalculator;
+
+	@BeforeEach
+	void setUp() {
+		stringCalculator = new StringCalculator();
+	}
 
 	@Test
-	void contextLoads() {
+	void addEmptyStringShouldReturnZero() {
+		var excepted = 0;
+		var actual = stringCalculator.add("");
+
+		Assertions.assertEquals(excepted, actual);
 	}
 
 }
