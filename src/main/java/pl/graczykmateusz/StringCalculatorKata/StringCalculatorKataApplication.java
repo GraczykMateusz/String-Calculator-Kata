@@ -14,6 +14,7 @@ public class StringCalculatorKataApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		StringCalculator stringCalculator = new StringCalculator();
+		stringCalculator.add("1,1");
 	}
 }

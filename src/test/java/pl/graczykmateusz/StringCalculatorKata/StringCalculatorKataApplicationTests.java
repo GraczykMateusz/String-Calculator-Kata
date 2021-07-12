@@ -5,7 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 class StringCalculatorKataApplicationTests {
 	private StringCalculator stringCalculator;
@@ -15,29 +20,36 @@ class StringCalculatorKataApplicationTests {
 		stringCalculator = new StringCalculator();
 	}
 
-	@Test
-	void shouldReturnZeroWhenAddEmptyString() {
+	@ParameterizedTest
+	@EmptySource
+	void shouldReturnZeroWhenAddEmptyString(String numbers) {
 		var excepted = 0;
-		var actual = stringCalculator.add("");
-
+		var actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"})
-	void shouldReturnThatNumberWhenAddOneNumber(String number) {
-		var excepted = Integer.parseInt(number);
-		var actual = stringCalculator.add(number);
-
+	void shouldReturnThatNumberWhenAddOneNumber(String numbers) {
+		var excepted = Integer.parseInt(numbers);
+		var actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"0,0", "1,2", "2,3", "3,3", "4,5", "6,3", "11,23"})
-	void shouldReturnSumWhenAddTwoNumbers(String numbers) {
-		var excepted = Integer.parseInt(numbers);
+	@MethodSource("addTwoNumbersArguments")
+	void shouldReturnSumWhenAddTwoNumbers(String numbers, int excepted) {
 		var actual = stringCalculator.add(numbers);
-
 		Assertions.assertEquals(excepted, actual);
+	}
+
+	private static Stream<Arguments> addTwoNumbersArguments() {
+		return Stream.of(
+				Arguments.of("0,0", 0),
+				Arguments.of("1,1", 2),
+				Arguments.of("2,3", 5),
+				Arguments.of("10,10", 20),
+				Arguments.of("12,44", 56),
+				Arguments.of("999,2", 1001));
 	}
 }
