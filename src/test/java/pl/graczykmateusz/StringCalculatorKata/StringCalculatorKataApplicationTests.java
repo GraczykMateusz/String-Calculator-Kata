@@ -84,4 +84,21 @@ class StringCalculatorKataApplicationTests {
 				Arguments.of("10\n20\n30\n40\n50", 150),
 				Arguments.of("1,1\n1,1\n1,1\n1,1\n1,1", 10));
 	}
+
+	@ParameterizedTest
+	@MethodSource("addUnknownAmountOfNumbersAndUnknownSeparatorArguments")
+	void shouldReturnSumWhenUnknownAmountOfNumbersAndUnknownSeparator(String numbers, int excepted) {
+		var actual = stringCalculator.add(numbers);
+		Assertions.assertEquals(excepted, actual);
+	}
+
+	private static Stream<Arguments> addUnknownAmountOfNumbersAndUnknownSeparatorArguments() {
+		return Stream.of(
+				Arguments.of("//;\n0,0;0", 0),
+				Arguments.of("//a\n1a1a5", 7),
+				Arguments.of("//$\n2$4,4$5", 15),
+				Arguments.of("//zz\n10,10zz10zz10", 40),
+				Arguments.of("//!@\n10!@20,30!@40,50", 150),
+				Arguments.of("//]\n1,1]1,1,1]1]1]1]1,1", 10));
+	}
 }
