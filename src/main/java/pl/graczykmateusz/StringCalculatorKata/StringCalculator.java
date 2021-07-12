@@ -11,7 +11,7 @@ public class StringCalculator implements IStringCalculator {
         if (numbers.isEmpty())
             return 0;
         if(numbers.length() != 1) {
-            List<String> splitedNumbers = Arrays.asList(numbers.split("\\s*,\\s*"));
+            List<String> splitedNumbers = Arrays.asList(numbers.split(",|\\n"));
             var sum = splitedNumbers.stream()
                     .map(Integer::parseInt)
                     .reduce(0, Integer::sum);
