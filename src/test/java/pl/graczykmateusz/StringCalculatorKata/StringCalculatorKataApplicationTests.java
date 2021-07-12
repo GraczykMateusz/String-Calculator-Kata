@@ -52,13 +52,13 @@ class StringCalculatorKataApplicationTests {
 	}
 
 	@ParameterizedTest
-	@MethodSource("addUnknownAmountOfNumbersArguments")
-	void shouldReturnSumWhenUnknownAmountOfNumbers(String numbers, int excepted) {
+	@MethodSource("addUnknownAmountOfNumbersAndCommaSeparatorArguments")
+	void shouldReturnSumWhenUnknownAmountOfNumbersAndCommaSeparator(String numbers, int excepted) {
 		var actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
-	private static Stream<Arguments> addUnknownAmountOfNumbersArguments() {
+	private static Stream<Arguments> addUnknownAmountOfNumbersAndCommaSeparatorArguments() {
 		return Stream.of(
 				Arguments.of("0,0,0", 0),
 				Arguments.of("1,1,5", 7),
@@ -66,5 +66,22 @@ class StringCalculatorKataApplicationTests {
 				Arguments.of("10,10,10,10", 40),
 				Arguments.of("10,20,30,40,50", 150),
 				Arguments.of("1,1,1,1,1,1,1,1,1,1", 10));
+	}
+
+	@ParameterizedTest
+	@MethodSource("addUnknownAmountOfNumbersAndNewLineSeparatorArguments")
+	void shouldReturnSumWhenUnknownAmountOfNumbersAndNewLineSeparator(String numbers, int excepted) {
+		var actual = stringCalculator.add(numbers);
+		Assertions.assertEquals(excepted, actual);
+	}
+
+	private static Stream<Arguments> addUnknownAmountOfNumbersAndNewLineSeparatorArguments() {
+		return Stream.of(
+				Arguments.of("0\n0,0", 0),
+				Arguments.of("1,1\n5", 7),
+				Arguments.of("2,4,4\n5", 15),
+				Arguments.of("10\n10,10,10", 40),
+				Arguments.of("10\n20\n30\n40\n50", 150),
+				Arguments.of("1,1\n1,1\n1,1\n1,1\n1,1", 10));
 	}
 }
