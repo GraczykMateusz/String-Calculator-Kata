@@ -111,4 +111,24 @@ class StringCalculatorKataApplicationTests {
 				Arguments.of("//!\n10!20,30!40,50", 150),
 				Arguments.of("//s\n1,1s1,1,1s1s1s1s1,1", 10));
 	}
+
+	@ParameterizedTest
+	@MethodSource("addNegativeNumbersArguments")
+	void shouldReturnExceptionWhenOneNegativeNumber(String numbers) {
+		String excepted = "negatives not allowed";
+		try {
+			var actual = stringCalculator.add(numbers);
+		} catch (RuntimeException e) {
+			Assertions.assertEquals(excepted, e.getMessage());
+		}
+	}
+
+	private static Stream<Arguments> addNegativeNumbersArguments() {
+		return Stream.of(
+				//Arguments.of("-1,1\n5"),
+				//Arguments.of("2,-4,4\n5"),
+				Arguments.of("//{\n10\n10{-10,10"),
+				Arguments.of("10\n20\n30\n-40\n50"),
+				Arguments.of("//;\n01;1\n1;1\n1;1\n1;1\n1,-1"));
+	}
 }
