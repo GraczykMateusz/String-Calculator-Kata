@@ -18,16 +18,23 @@ public class StringCalculator implements IStringCalculator {
             List<String> splitNumbers;
             boolean isDifferentSeparator = numbers.matches("^(?s)//.*\\n.*");
             if (isDifferentSeparator) {
-                String separator = StringUtils.substringBetween(numbers, "//", "\n");
+                boolean isDifferentManySeparators = numbers.matches("^(?s)//\\[.*\\]\\n.*$");
+                String separator;
+                if (isDifferentManySeparators)
+                    separator = StringUtils.substringBetween(numbers, "//[", "]\n");
+                else
+                    separator = StringUtils.substringBetween(numbers, "//", "\n");
                 String numbersWithoutInitialSeparator = StringUtils.substringAfter(numbers, "\n");
-                splitNumbers = Arrays.asList(numbersWithoutInitialSeparator.split("(?s)[,\\n{" + separator + "}]"));
+                splitNumbers = Arrays.stream(
+                        numbersWithoutInitialSeparator.split("(?s)[,\\n{" + separator + "}]"))
+                        .filter(e -> e.trim().length() > 0).toList();
             } else {
                 splitNumbers = Arrays.asList(numbers.split("(?s)[,\\n]"));
             }
             List<String> negativeNumbers = splitNumbers.stream()
                     .filter(s -> s.startsWith("-"))
                     .collect(Collectors.toList());
-            if(!negativeNumbers.isEmpty())
+            if (!negativeNumbers.isEmpty())
                 throw new RuntimeException("negatives not allowed " + negativeNumbers);
             final int maxNumberValue = 1001;
             Integer sum = splitNumbers.stream()
