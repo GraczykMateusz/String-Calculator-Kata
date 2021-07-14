@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 class StringCalculatorKataApplicationTests {
@@ -21,23 +22,23 @@ class StringCalculatorKataApplicationTests {
 	@ParameterizedTest
 	@EmptySource
 	void shouldReturnZeroWhenAddEmptyString(String numbers) {
-		var excepted = 0;
-		var actual = stringCalculator.add(numbers);
+		int excepted = 0;
+		int actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"})
 	void shouldReturnThatNumberWhenAddOneNumber(String numbers) {
-		var excepted = Integer.parseInt(numbers);
-		var actual = stringCalculator.add(numbers);
+		int excepted = Integer.parseInt(numbers);
+		int actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
 	@ParameterizedTest
 	@MethodSource("addTwoNumbersArguments")
 	void shouldReturnSumWhenAddTwoNumbers(String numbers, int excepted) {
-		var actual = stringCalculator.add(numbers);
+		int actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
@@ -54,7 +55,7 @@ class StringCalculatorKataApplicationTests {
 	@ParameterizedTest
 	@MethodSource("addUnknownAmountOfNumbersAndCommaSeparatorArguments")
 	void shouldReturnSumWhenUnknownAmountOfNumbersAndCommaSeparator(String numbers, int excepted) {
-		var actual = stringCalculator.add(numbers);
+		int actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
@@ -71,7 +72,7 @@ class StringCalculatorKataApplicationTests {
 	@ParameterizedTest
 	@MethodSource("addUnknownAmountOfNumbersAndNewLineSeparatorArguments")
 	void shouldReturnSumWhenUnknownAmountOfNumbersAndNewLineSeparator(String numbers, int excepted) {
-		var actual = stringCalculator.add(numbers);
+		int actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
@@ -88,7 +89,7 @@ class StringCalculatorKataApplicationTests {
 	@ParameterizedTest
 	@MethodSource("addUnknownAmountOfNumbersAndUnknownSeparatorArguments")
 	void shouldReturnSumWhenUnknownAmountOfNumbersAndUnknownSeparator(String numbers, int excepted) {
-		var actual = stringCalculator.add(numbers);
+		int actual = stringCalculator.add(numbers);
 		Assertions.assertEquals(excepted, actual);
 	}
 
@@ -116,17 +117,21 @@ class StringCalculatorKataApplicationTests {
 	@MethodSource("addNegativeNumbersArguments")
 	void shouldReturnExceptionWhenOneNegativeNumber(String numbers) {
 		String excepted = "negatives not allowed";
+		Optional<Integer> nonExceptedInt = Optional.empty();
 		try {
-			var actual = stringCalculator.add(numbers);
+			int actual = stringCalculator.add(numbers);
+			nonExceptedInt = Optional.of(actual);
 		} catch (RuntimeException e) {
-			Assertions.assertEquals(excepted, e.getMessage());
+			Assertions.assertTrue(e.getMessage().contains(excepted));
 		}
+		Assertions.assertTrue(nonExceptedInt.isEmpty());
 	}
 
 	private static Stream<Arguments> addNegativeNumbersArguments() {
 		return Stream.of(
 				//Arguments.of("-1,1\n5"),
 				//Arguments.of("2,-4,4\n5"),
+				Arguments.of("//{\n10\n2{-3", 6),
 				Arguments.of("//{\n10\n10{-10,10"),
 				Arguments.of("10\n20\n30\n-40\n50"),
 				Arguments.of("//;\n01;1\n1;1\n1;1\n1;1\n1,-1"));
