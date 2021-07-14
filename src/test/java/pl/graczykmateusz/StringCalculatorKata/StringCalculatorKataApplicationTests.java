@@ -162,4 +162,31 @@ class StringCalculatorKataApplicationTests {
 				Arguments.of("//{\n1000\n1008{10,10", 1020),
 				Arguments.of("1001\n2000\n3000\n4000\n5000", 0));
 	}
+
+	@ParameterizedTest
+	@MethodSource({"addNumbersAndUnknownManySeparatorsArguments"})
+	void shouldReturnSumWhenUnknownManySeparators(String numbers, int excepted) {
+		int actual = stringCalculator.add(numbers);
+		Assertions.assertEquals(excepted, actual);
+	}
+
+	private static Stream<Arguments> addNumbersAndUnknownManySeparatorsArguments() {
+		return Stream.of(
+				Arguments.of("//[;;;]\n0,0;;;0", 0),
+				Arguments.of("//[...]\n1...2...3", 6),
+				Arguments.of("//[+++]\n1,2+++3", 6),
+				Arguments.of("//[***]\n1***2***3", 6),
+				Arguments.of("//[???]\n1???2???3", 6),
+				Arguments.of("//[^^^]\n1,2^^^3", 6),
+				Arguments.of("//[$$$]\n1,2$$$3", 6),
+				Arguments.of("//[(((]\n1(((2(((3", 6),
+				Arguments.of("//[)))]\n1,2)))3", 6),
+				Arguments.of("//[{{{]\n1{{{2{{{3", 6),
+				Arguments.of("//[}}}]\n1,2}}}3", 6),
+				Arguments.of("//[|||]\n1,2|||3", 6),
+				Arguments.of("//[aaa]\n1aaa1aaa5", 7),
+				Arguments.of("//[zzz]\n10,10zzz10zzz10", 40),
+				Arguments.of("//[!!!]\n10!!!20,30!!!40,50", 150),
+				Arguments.of("//[sss]\n1,1sss1,1,1sss1sss1sss1sss1,1", 10));
+	}
 }
