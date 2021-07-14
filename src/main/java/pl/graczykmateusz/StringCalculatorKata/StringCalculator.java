@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class StringCalculator implements IStringCalculator {
 
@@ -22,11 +23,11 @@ public class StringCalculator implements IStringCalculator {
             } else {
                 splitNumbers = Arrays.asList(numbers.split("(?s)[,\\n]"));
             }
-            Optional<String> negativeNumber = splitNumbers.stream()
+            List<String> negativeNumber = splitNumbers.stream()
                     .filter(s -> s.startsWith("-"))
-                    .findAny();
+                    .collect(Collectors.toList());
             if(!negativeNumber.isEmpty())
-                throw new RuntimeException("negatives not allowed " + negativeNumber.get());
+                throw new RuntimeException("negatives not allowed " + negativeNumber);
             Integer sum = splitNumbers.stream()
                     .map(Integer::parseInt)
                     .reduce(0, Integer::sum);
