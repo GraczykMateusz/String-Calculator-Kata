@@ -189,4 +189,21 @@ class StringCalculatorKataApplicationTests {
 				Arguments.of("//[!!!]\n10!!!20,30!!!40,50", 150),
 				Arguments.of("//[sss]\n1,1sss1,1,1sss1sss1sss1sss1,1", 10));
 	}
+
+	@ParameterizedTest
+	@MethodSource({"addNumbersAndUnknownPackageOfManySeparatorsArguments"})
+	void shouldReturnSumWhenUnknownPackageOfManySeparators(String numbers, int excepted) {
+		int actual = stringCalculator.add(numbers);
+		Assertions.assertEquals(excepted, actual);
+	}
+
+	private static Stream<Arguments> addNumbersAndUnknownPackageOfManySeparatorsArguments() {
+		return Stream.of(
+				Arguments.of("//[;][...]\n0...0;0", 0),
+				Arguments.of("//[+++][*]\n1*2+++3", 6),
+				Arguments.of("//[???][^^^]\n1^^^2???3", 6),
+				Arguments.of("//[$$$][(((]\n1(((2$$$3", 6),
+				Arguments.of("//[)))][{{{][}}}]\n1{{{2)))3}}}4", 10),
+				Arguments.of("//[|||][aaa][zzz]\n1,2|||3\n4aaa5zzz6", 21));
+	}
 }
