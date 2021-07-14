@@ -19,26 +19,21 @@ public class StringCalculator implements IStringCalculator {
             boolean isDifferentSeparator = numbers.matches("^(?s)//.*\\n.*");
             if (isDifferentSeparator) {
                 boolean isDifferentManySeparators = numbers.matches("^(?s)//\\[.*]\\n.*$");
+                String separator;
                 if (isDifferentManySeparators) {
                     String[] separators = StringUtils.substringsBetween(numbers, "[", "]");
-                    String numbersWithoutInitialSeparators = StringUtils.substringAfter(numbers, "\n");
-
                     StringBuilder builder = new StringBuilder();
                     for (String s : separators) {
                         builder.append(s + "|");
                     }
-                    String separator = builder.toString();
-
-                    splitNumbers = Arrays.stream(
-                            numbersWithoutInitialSeparators.split("(?s)[,\\n{" + separator + "}]"))
-                            .filter(e -> e.trim().length() > 0).toList();
+                    separator = builder.toString();
                 } else {
-                    String separator = StringUtils.substringBetween(numbers, "//", "\n");
-                    String numbersWithoutInitialSeparator = StringUtils.substringAfter(numbers, "\n");
-                    splitNumbers = Arrays.stream(
-                            numbersWithoutInitialSeparator.split("(?s)[,\\n{" + separator + "}]"))
-                            .filter(e -> e.trim().length() > 0).toList();
+                    separator = StringUtils.substringBetween(numbers, "//", "\n");
                 }
+                String numbersWithoutInitialSeparator = StringUtils.substringAfter(numbers, "\n");
+                splitNumbers = Arrays.stream(
+                    numbersWithoutInitialSeparator.split("(?s)[,\\n{" + separator + "}]"))
+                    .filter(e -> e.trim().length() > 0).toList();
             } else {
                 splitNumbers = Arrays.asList(numbers.split("(?s)[,\\n]"));
             }
