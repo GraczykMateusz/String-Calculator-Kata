@@ -114,8 +114,8 @@ class StringCalculatorKataApplicationTests {
 	}
 
 	@ParameterizedTest
-	@MethodSource("addNegativeNumbersArguments")
-	void shouldReturnExceptionWhenOneNegativeNumber(String numbers) {
+	@MethodSource({"addNegativeOneNumberArguments", "addNegativeManyNumbersArguments"})
+	void shouldReturnExceptionWhenNegativeNumber(String numbers) {
 		String excepted = "negatives not allowed";
 		Optional<Integer> nonExceptedInt = Optional.empty();
 		try {
@@ -127,13 +127,23 @@ class StringCalculatorKataApplicationTests {
 		Assertions.assertTrue(nonExceptedInt.isEmpty());
 	}
 
-	private static Stream<Arguments> addNegativeNumbersArguments() {
+	private static Stream<Arguments> addNegativeOneNumberArguments() {
 		return Stream.of(
 				Arguments.of("-1,1\n5"),
 				Arguments.of("2,-4,4\n5"),
-				Arguments.of("//{\n10\n2{-3", 6),
+				Arguments.of("//{\n10\n2{-3"),
 				Arguments.of("//{\n10\n10{-10,10"),
 				Arguments.of("10\n20\n30\n-40\n50"),
 				Arguments.of("//;\n01;1\n1;1\n1;1\n1;1\n1,-1"));
+	}
+
+	private static Stream<Arguments> addNegativeManyNumbersArguments() {
+		return Stream.of(
+				Arguments.of("-1,1\n-5"),
+				Arguments.of("2,-4,-4\n5"),
+				Arguments.of("//{\n-10\n2{-3"),
+				Arguments.of("//{\n10\n-10{-10,10"),
+				Arguments.of("-10\n-20\n-30\n-40\n-50"),
+				Arguments.of("//;\n01;-1\n1;1\n1;1\n1;1\n1,-1"));
 	}
 }
