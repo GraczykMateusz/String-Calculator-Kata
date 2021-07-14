@@ -147,26 +147,19 @@ class StringCalculatorKataApplicationTests {
 				Arguments.of("//;\n1;-1\n1;1\n1;1\n1;1\n1,-1"));
 	}
 
+	@ParameterizedTest
 	@MethodSource({"addNumbersGreaterThenThousandArguments"})
-	void shouldIgnoreNumbersGreaterThenThousandAndReturnSum(String numbers) {
-		String excepted = "negatives not allowed";
-		Optional<Integer> nonExceptedInt = Optional.empty();
-		try {
-			int actual = stringCalculator.add(numbers);
-			nonExceptedInt = Optional.of(actual);
-		} catch (RuntimeException e) {
-			Assertions.assertTrue(e.getMessage().contains(excepted));
-		}
-		Assertions.assertTrue(nonExceptedInt.isEmpty());
+	void shouldIgnoreNumbersGreaterThenThousandAndReturnSum(String numbers, int excepted) {
+		int actual = stringCalculator.add(numbers);
+		Assertions.assertEquals(excepted, actual);
 	}
 
 	private static Stream<Arguments> addNumbersGreaterThenThousandArguments() {
 		return Stream.of(
-				Arguments.of("1,1001\n5"),
-				Arguments.of("2,4000,4\n5"),
-				Arguments.of("//{\n10\n2000{3"),
-				Arguments.of("//{\n1000\n1008{10,10"),
-				Arguments.of("10\n2000\n3000\n4000\n5000"),
-				Arguments.of("//;\n1;1\n1;1\n1;1\n1;1\n1,1"));
+				Arguments.of("1,1001\n5", 6),
+				Arguments.of("2,4000,4\n5", 11),
+				Arguments.of("//{\n10\n2000{3", 13),
+				Arguments.of("//{\n1000\n1008{10,10", 1020),
+				Arguments.of("1001\n2000\n3000\n4000\n5000", 0));
 	}
 }
