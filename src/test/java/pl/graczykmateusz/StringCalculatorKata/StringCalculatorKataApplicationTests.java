@@ -129,8 +129,8 @@ class StringCalculatorKataApplicationTests {
 
 	private static Stream<Arguments> addNegativeNumbersArguments() {
 		return Stream.of(
-				//Arguments.of("-1,1\n5"),
-				//Arguments.of("2,-4,4\n5"),
+				Arguments.of("-1,1\n5"),
+				Arguments.of("2,-4,4\n5"),
 				Arguments.of("//{\n10\n2{-3", 6),
 				Arguments.of("//{\n10\n10{-10,10"),
 				Arguments.of("10\n20\n30\n-40\n50"),
