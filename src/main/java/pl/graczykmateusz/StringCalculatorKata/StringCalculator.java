@@ -1,7 +1,6 @@
 package pl.graczykmateusz.StringCalculatorKata;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.OrderComparator;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -18,7 +17,7 @@ public class StringCalculator implements IStringCalculator {
             List<String> splitNumbers;
             boolean isDifferentSeparator = numbers.matches("^(?s)//.*\\n.*");
             if (isDifferentSeparator) {
-                boolean isDifferentManySeparators = numbers.matches("^(?s)//\\[.*\\]\\n.*$");
+                boolean isDifferentManySeparators = numbers.matches("^(?s)//\\[.*]\\n.*$");
                 String separator;
                 if (isDifferentManySeparators)
                     separator = StringUtils.substringBetween(numbers, "//[", "]\n");
@@ -37,12 +36,11 @@ public class StringCalculator implements IStringCalculator {
             if (!negativeNumbers.isEmpty())
                 throw new RuntimeException("negatives not allowed " + negativeNumbers);
             final int maxNumberValue = 1001;
-            Integer sum = splitNumbers.stream()
+            return splitNumbers.stream()
                     .map(Integer::parseInt)
                     .sorted(Comparator.naturalOrder())
                     .filter(integer -> integer < maxNumberValue)
                     .reduce(0, Integer::sum);
-            return sum;
         }
         return Integer.parseInt(numbers);
     }
